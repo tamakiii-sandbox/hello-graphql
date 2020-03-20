@@ -11,6 +11,12 @@ var schema = buildSchema(`
     id: ID!
     name: String!
     friends: [Human!]!
+    episodes: [Episode!]!
+  }
+  enum Episode {
+    NEW_HOPE
+    EMPIRE
+    JEDI
   }
 `);
 
@@ -29,6 +35,7 @@ class Human {
     this.id = row.id;
     this.name = row.name;
     this.friends = row.friends;
+    this.episodes = row.episodes;
   }
 
   setLoader(loader) {
@@ -48,6 +55,7 @@ class Human {
       id: this.id,
       name: this.name,
       friends: this.loader.finds(this.friends),
+      episodes: this.episodes,
     };
   }
 }
@@ -57,16 +65,19 @@ var humans = [
     id: 1,
     name: 'Luke Skywalker',
     friends: [],
+    episodes: [],
   }),
   new Human({
     id: 2,
     name: 'Han Solo',
     friends: [1, 3],
+    episodes: [],
   }),
   new Human({
     id: 3,
     name: 'R2-D2',
     friends: [1, 2],
+    episodes: [],
   })
 ];
 
