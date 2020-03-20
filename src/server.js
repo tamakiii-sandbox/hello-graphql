@@ -4,11 +4,20 @@ var { buildSchema } = require('graphql');
 
 var schema = buildSchema(`
   type Query {
-    hello: String
+    me: User
+  }
+  type User {
+    id: ID
+    name: String
   }
 `);
 
-var root = { hello: () => 'hello world' };
+var root = {
+  me: () => ({
+    id: 1,
+    name: 'Luke Skywalker',
+  })
+};
 
 var app = express();
 app.use('/graphql', graphqlHttp({
