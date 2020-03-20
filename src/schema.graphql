@@ -1,0 +1,17 @@
+type Query {
+  human(id: ID): Human!
+  humans: [Human!]!
+}
+
+type Human {
+  id: ID!
+  name: String!
+  friends: [Human!]!
+  episodes: [Episode!]!
+}
+
+enum Episode {
+  NEW_HOPE
+  EMPIRE
+  JEDI
+}

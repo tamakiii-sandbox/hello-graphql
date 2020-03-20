@@ -1,24 +1,4 @@
-var express = require('express');
-var graphqlHttp = require('express-graphql');
-var { buildSchema } = require('graphql');
-
-var schema = buildSchema(`
-  type Query {
-    human(id: ID): Human!
-    humans: [Human!]!
-  }
-  type Human {
-    id: ID!
-    name: String!
-    friends: [Human!]!
-    episodes: [Episode!]!
-  }
-  enum Episode {
-    NEW_HOPE
-    EMPIRE
-    JEDI
-  }
-`);
+var { GraphQLServer } = require('graphql-yoga');
 
 class Loader {
   constructor(rows) {
@@ -84,28 +64,28 @@ var humans = [
 var loader = new Loader(humans);
 humans.forEach(h => h.setLoader(loader));
 
-var root = {
-  human: (params, request, query) => {
-    console.log(params, request, query);
-    if (!params.id) {
-      throw new Error("Bad Request");
-    }
-    var id = parseInt(params.id);
-    var human = humans.find(human => human.id === id);
-    if (!human) {
-      throw new Error("Not found");
-    }
-    return human.toResponse();
-  },
-  humans: () => humans.map(human => human.toResponse()),
-};
+const resolvers = {
+  Query: {
+    human: (params, request, query) => {
+      console.log(params, request, query);
+      if (!params.id) {
+        throw new Error("Bad Request");
+      }
+      var id = parseInt(params.id);
+      var human = humans.find(human => human.id === id);
+      if (!human) {
+        throw new Error("Not found");
+      }
+      return human.toResponse();
+    },
+    humans: () => humans.map(human => human.toResponse()),
+  }
+}
 
-var app = express();
-app.use('/graphql', graphqlHttp({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
+const typeDefs = './src/schema.graphql';
+const server = new GraphQLServer({ typeDefs, resolvers });
 
-var port = 3000;
-app.listen(port, '0.0.0.0', () => console.log(`Now browse to localhost:${port}/graphql`));
+server.createHttpServer({})
+  .listen(3000, '0.0.0.0', () => {
+    console.log('Server started, listening on port 3000');
+  });
