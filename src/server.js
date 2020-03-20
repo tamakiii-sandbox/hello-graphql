@@ -4,18 +4,25 @@ var { buildSchema } = require('graphql');
 
 var schema = buildSchema(`
   type Query {
-    me: User
+    hero: Hero
   }
-  type User {
-    id: ID
+  type Hero {
     name: String
+    friends: [Hero!]
   }
 `);
 
 var root = {
-  me: () => ({
-    id: 1,
-    name: 'Luke Skywalker',
+  hero: () => ({
+    name: 'R2-D2',
+    friends: [
+      {
+        name: 'Luke Skywalker'
+      },
+      {
+        name: 'Han Solo'
+      }
+    ]
   })
 };
 
