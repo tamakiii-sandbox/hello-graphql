@@ -9,5 +9,6 @@ RUN apt-get update && \
       make \
       git \
       vim \
+      less \
       && \
     apt-get clean
