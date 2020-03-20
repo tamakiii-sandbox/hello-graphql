@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tamakiii-sandbox/hello-graphql/issues"
   },
-  "homepage": "https://github.com/tamakiii-sandbox/hello-graphql#readme"
+  "homepage": "https://github.com/tamakiii-sandbox/hello-graphql#readme",
+  "dependencies": {
+    "graphql": "^14.6.0"
+  }
 }
