@@ -7,7 +7,7 @@ install: \
 	node_modules
 
 node_modules:
-	npm install
+	npm install --dev
 
 clean:
 	rm -rf node_modules
