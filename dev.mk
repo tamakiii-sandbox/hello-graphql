@@ -1,4 +1,4 @@
-.PHONY: help install clean
+.PHONY: help install server clean
 
 help:
 	cat $(lastword $(MAKEFILE_LIST))
@@ -8,6 +8,9 @@ install: \
 
 node_modules:
 	npm install --dev
+
+server:
+	npx --no-install nodemon -w src --exec "make server"
 
 clean:
 	rm -rf node_modules
