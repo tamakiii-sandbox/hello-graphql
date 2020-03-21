@@ -9,7 +9,6 @@ open "http://localhost:4000/playground"
 
 ## Query example
 ~~~graphql
-# Write your query or mutation here
 query {
   humans {
     id
@@ -18,6 +17,13 @@ query {
     name
   }
 }
+~~~
+
+## Using VSCode
+~~~sh
+code . # => TERMINAL: `docker-compose up --build`
+code node # => `Remote-Containers: Reopen in Container`
+code playground # => `Remote-Containers: Reopen in Container`
 ~~~
 
 ## Manually run main task
