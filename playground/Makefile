@@ -7,9 +7,9 @@ install: \
 	node_modules
 
 node_modules:
-	npm install
+	npm install --only=production
 
-playground:
+playground: install
 	node src/playground.js
 
 clean:

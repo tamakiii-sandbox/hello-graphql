@@ -7,9 +7,9 @@ install: \
 	node_modules
 
 node_modules:
-	npm install
+	npm install --only=production
 
-server:
+server: install
 	node src/server.js
 
 clean:

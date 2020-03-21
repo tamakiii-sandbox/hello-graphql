@@ -18,3 +18,4 @@ build:
 
 clean:
 	docker-compose down -v
+	rm -rf .env

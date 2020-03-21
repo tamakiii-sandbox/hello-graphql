@@ -9,7 +9,7 @@ install: \
 node_modules:
 	npm install
 
-playground:
+playground: install
 	npx --no-install nodemon -w src --exec "make playground || exit 1"
 
 clean:

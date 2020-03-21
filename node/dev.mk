@@ -7,9 +7,9 @@ install: \
 	node_modules
 
 node_modules:
-	npm install --dev
+	npm install
 
-server:
+server: install
 	npx --no-install nodemon -w src --exec "make server || exit 1"
 
 clean:
