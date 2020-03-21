@@ -1,22 +1,8 @@
-const { ApolloServer, gql } = require('apollo-server');
+const path = require('path')
+const { ApolloServer } = require('apollo-server')
+const { importSchema } = require('graphql-import')
 
-var typeDefs = gql(`
-  type Query {
-    human(id: ID): Human!
-    humans: [Human!]!
-  }
-  type Human {
-    id: ID!
-    name: String!
-    friends: [Human!]!
-    episodes: [Episode!]!
-  }
-  enum Episode {
-    NEW_HOPE
-    EMPIRE
-    JEDI
-  }
-`);
+const typeDefs = importSchema(path.resolve(__dirname + '/schema.graphql'))
 
 class Loader {
   constructor(rows) {
