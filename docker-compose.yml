@@ -7,4 +7,13 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/app
+      - .:/app:cached
+
+  playground:
+    build:
+      context: docker/playground
+      target: ${ENVIRONMENT:-production-pseudo}
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/app:cached

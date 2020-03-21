@@ -1,8 +1,6 @@
-var express = require('express');
-var graphqlHttp = require('express-graphql');
-var { buildSchema } = require('graphql');
+const { ApolloServer, gql } = require('apollo-server');
 
-var schema = buildSchema(`
+var typeDefs = gql(`
   type Query {
     human(id: ID): Human!
     humans: [Human!]!
@@ -84,28 +82,25 @@ var humans = [
 var loader = new Loader(humans);
 humans.forEach(h => h.setLoader(loader));
 
-var root = {
-  human: (params, request, query) => {
-    console.log(params, request, query);
-    if (!params.id) {
-      throw new Error("Bad Request");
-    }
-    var id = parseInt(params.id);
-    var human = humans.find(human => human.id === id);
-    if (!human) {
-      throw new Error("Not found");
-    }
-    return human.toResponse();
-  },
-  humans: () => humans.map(human => human.toResponse()),
+var resolvers = {
+  Query: {
+    human: (_, params) => {
+      if (!params.id) {
+        throw new Error("Bad Request");
+      }
+      var id = parseInt(params.id);
+      var human = humans.find(human => human.id === id);
+      if (!human) {
+        throw new Error("Not found");
+      }
+      return human.toResponse();
+    },
+    humans: () => humans.map(human => human.toResponse()),
+  }
 };
 
-var app = express();
-app.use('/graphql', graphqlHttp({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
+const server = new ApolloServer({ typeDefs, resolvers });
 
-var port = 3000;
-app.listen(port, '0.0.0.0', () => console.log(`Now browse to localhost:${port}/graphql`));
+const port = 3000;
+const host = '0.0.0.0';
+server.listen(port, host).then(() => console.log(`🚀 http://${host}:${port}/graphql`))
