@@ -15,3 +15,11 @@ enum Episode {
   EMPIRE
   JEDI
 }
+
+# type Subscription {
+#   somethingChanged: Result
+# }
+
+# type Result {
+#   id: string
+# }
