@@ -10,7 +10,10 @@ node_modules:
 	npm install
 
 server: install
-	npx --no-install nodemon -w src --exec "make server || exit 1"
+	npx --no-install nodemon \
+		--watch 'src/**/*' \
+		--ext 'js,graphql' \
+		--exec "make server || exit 1"
 
 clean:
 	rm -rf node_modules
